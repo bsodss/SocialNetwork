@@ -7,7 +7,9 @@ namespace DAL.Interfaces
 {
     public interface IUnitOfWork
     {
-
+        IUserRepository UserRepository { get; }
+        IUserFriendRepository UserFriendRepository { get; }
+        IUserPostRepository UserPostRepository { get; }
         Task<int> SaveAsync();
     }
 }
