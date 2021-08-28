@@ -20,14 +20,10 @@ namespace DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>()
-                .HasMany(m => m.Friends)
-                .WithOne(w => w.User)
-                .HasForeignKey(f => f.UserId);
 
-            //modelBuilder.Entity<UserFriend>().HasOne(u => u.User)
-            //    .WithMany(w => w.Friends)
-            //    .HasForeignKey(f => f.UserId).OnDelete(DeleteBehavior.ClientNoAction);
+            modelBuilder.Entity<UserFriend>().HasOne(u => u.User)
+                .WithMany(w => w.Friends)
+                .HasForeignKey(f => f.UserId).OnDelete(DeleteBehavior.Restrict);
 
         }
 

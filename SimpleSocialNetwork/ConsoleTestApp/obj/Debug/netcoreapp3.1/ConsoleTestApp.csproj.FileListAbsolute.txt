@@ -1,0 +1,13 @@
+C:\Users\Maxim\source\repos\simplesocialnetwork\SimpleSocialNetwork\ConsoleTestApp\bin\Debug\netcoreapp3.1\ConsoleTestApp.exe
+C:\Users\Maxim\source\repos\simplesocialnetwork\SimpleSocialNetwork\ConsoleTestApp\bin\Debug\netcoreapp3.1\ConsoleTestApp.deps.json
+C:\Users\Maxim\source\repos\simplesocialnetwork\SimpleSocialNetwork\ConsoleTestApp\bin\Debug\netcoreapp3.1\ConsoleTestApp.runtimeconfig.json
+C:\Users\Maxim\source\repos\simplesocialnetwork\SimpleSocialNetwork\ConsoleTestApp\bin\Debug\netcoreapp3.1\ConsoleTestApp.runtimeconfig.dev.json
+C:\Users\Maxim\source\repos\simplesocialnetwork\SimpleSocialNetwork\ConsoleTestApp\bin\Debug\netcoreapp3.1\ConsoleTestApp.dll
+C:\Users\Maxim\source\repos\simplesocialnetwork\SimpleSocialNetwork\ConsoleTestApp\bin\Debug\netcoreapp3.1\ConsoleTestApp.pdb
+C:\Users\Maxim\source\repos\simplesocialnetwork\SimpleSocialNetwork\ConsoleTestApp\obj\Debug\netcoreapp3.1\ConsoleTestApp.csproj.AssemblyReference.cache
+C:\Users\Maxim\source\repos\simplesocialnetwork\SimpleSocialNetwork\ConsoleTestApp\obj\Debug\netcoreapp3.1\ConsoleTestApp.AssemblyInfoInputs.cache
+C:\Users\Maxim\source\repos\simplesocialnetwork\SimpleSocialNetwork\ConsoleTestApp\obj\Debug\netcoreapp3.1\ConsoleTestApp.AssemblyInfo.cs
+C:\Users\Maxim\source\repos\simplesocialnetwork\SimpleSocialNetwork\ConsoleTestApp\obj\Debug\netcoreapp3.1\ConsoleTestApp.csproj.CoreCompileInputs.cache
+C:\Users\Maxim\source\repos\simplesocialnetwork\SimpleSocialNetwork\ConsoleTestApp\obj\Debug\netcoreapp3.1\ConsoleTestApp.dll
+C:\Users\Maxim\source\repos\simplesocialnetwork\SimpleSocialNetwork\ConsoleTestApp\obj\Debug\netcoreapp3.1\ConsoleTestApp.pdb
+C:\Users\Maxim\source\repos\simplesocialnetwork\SimpleSocialNetwork\ConsoleTestApp\obj\Debug\netcoreapp3.1\ConsoleTestApp.genruntimeconfig.cache
