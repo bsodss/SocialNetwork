@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DAL.Entities;
 using DAL.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Repositories
 {
@@ -19,37 +20,38 @@ namespace DAL.Repositories
 
         public IQueryable<UserFriend> FindAll()
         {
-            throw new NotImplementedException();
+            return _db.UserFriends;
         }
 
         public async Task<UserFriend> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return _db.UserFriends.FirstOrDefault(i => i.Id == id);
         }
 
         public async Task AddAsync(UserFriend entity)
         {
-            throw new NotImplementedException();
+            await _db.UserFriends.AddAsync(entity);
         }
 
         public void Update(UserFriend entity)
         {
-            throw new NotImplementedException();
+            _db.UserFriends.Update(entity);
         }
 
         public void Delete(UserFriend entity)
         {
-            throw new NotImplementedException();
+            _db.UserFriends.Remove(entity);
         }
 
         public async Task DeleteByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            await Task.Run(()=>_db.Remove(_db.UserFriends.First(i => i.Id == id)));
         }
 
-        public IQueryable<User> FindAllWithDetails()
+        public IQueryable<UserFriend> FindAllWithDetails()
         {
-            throw new NotImplementedException();
+            return _db.UserFriends.Include(i => i.User)
+                .Include(i => i.Friend);
         }
     }
 }

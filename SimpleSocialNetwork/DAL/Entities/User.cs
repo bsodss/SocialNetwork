@@ -23,7 +23,7 @@ namespace DAL.Entities
 
         public ICollection<UserFriend> Friends { get; set; }
 
-        public ICollection<UserPost> Post { get; set; }
+        public ICollection<UserPost> Posts { get; set; }
 
     }
 }

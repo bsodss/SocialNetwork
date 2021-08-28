@@ -8,6 +8,6 @@ namespace DAL.Interfaces
 {
     public interface IUserFriendRepository: IRepository<UserFriend>
     {
-        IQueryable<User> FindAllWithDetails();
+        IQueryable<UserFriend> FindAllWithDetails();
     }
 }
