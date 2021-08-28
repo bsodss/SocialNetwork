@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace DAL.Entities
 {
-    public class User :BaseEntity
+    public class User : BaseEntity
     {
         [Required]
         [MaxLength(20)]
@@ -18,8 +18,8 @@ namespace DAL.Entities
 
         public DateTime Birthday { get; set; }
         public string City { get; set; }
-        public bool IsMale { get; set; } 
-        public byte[] MainPhoto { get; set; } 
+        public bool IsMale { get; set; }
+        public byte[] MainPhoto { get; set; }
 
         public ICollection<UserFriend> Friends { get; set; }
 
