@@ -14,6 +14,7 @@ namespace DAL
             optionsBuilder.UseSqlServer(@"Server=.\;Database=db;Trusted_Connection=True;",
                 opts => opts.CommandTimeout((int)TimeSpan.FromMinutes(10).TotalSeconds));
             return new SocialNetworkDbContext(optionsBuilder.Options);
+
         }
     }
 
