@@ -12,6 +12,7 @@ namespace DAL
 
         public SocialNetworkDbContext(DbContextOptions<SocialNetworkDbContext> options) : base(options)
         {
+            Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 
@@ -24,43 +25,13 @@ namespace DAL
         {
 
             modelBuilder.Entity<UserFriend>().HasOne(u => u.User)
-                .WithMany(w => w.Friends)
+                .WithMany(w => w.FriendRequestSent)
                 .HasForeignKey(f => f.UserId).OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<UserFriend>().HasOne(u => u.Friend)
+                .WithMany(w => w.FriendRequestReceived)
+                .HasForeignKey(f => f.FriendId).OnDelete(DeleteBehavior.Restrict);
 
-            //added for the test
-            var user1 = new User
-            {
-                Id = 1,
-                FirstName = "Mike",
-                LastName = "Brown",
-                Birthday = new DateTime(2002,5,2),
-                IsMale = true,
-                MainPhoto = null,
-                City = "Kiev",
-            };
-            var user2 = new User
-            {
-                Id = 2,
-                FirstName = "John",
-                LastName = "West",
-                Birthday = new DateTime(2007, 9, 7),
-                IsMale = true,
-                MainPhoto = null,
-                City = "Vinnitsia",
-            };
-            modelBuilder.Entity<User>().HasData(user1, user2);
-
-            var friend = new UserFriend
-            {
-                Id = 1,
-                UserId = user1.Id,
-                FriendId = user2.Id,
-                //User = user1,
-                //Friend = user2,
-                IsConfirmed = false
-            };
-            modelBuilder.Entity<UserFriend>().HasData(friend);
 
         }
 

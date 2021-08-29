@@ -21,7 +21,11 @@ namespace DAL.Entities
         public bool IsMale { get; set; }
         public byte[] MainPhoto { get; set; }
 
-        public ICollection<UserFriend> Friends { get; set; }
+        //public ICollection<UserFriend> Friends { get; set; }
+
+        public ICollection<UserFriend> FriendRequestSent { get; set; }
+        public ICollection<UserFriend> FriendRequestReceived { get; set; }
+
 
         public ICollection<UserPost> Posts { get; set; }
 

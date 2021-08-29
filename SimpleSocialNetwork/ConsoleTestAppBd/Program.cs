@@ -10,12 +10,9 @@ namespace ConsoleTestAppBd
     {
         static void Main(string[] args)
         {
-            User c;
-            Console.WriteLine("Hi");
-            var context = new SocialNetworkDbContextFactory().CreateDbContext(new []{""});
-            c = context.Users.FirstOrDefault();
-            Console.WriteLine("Hi1");
-            Console.WriteLine($"User: {c?.FirstName}");
+
+
+
         }
     }
 }
