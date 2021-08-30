@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using DAL.Entities;
 
 namespace DAL.Interfaces
 {
-    public interface IFriendRequestRepository: IRepository<FriendRequest>
+    public interface IUserFriendRepository:IRepository<UserFriend>
     {
-        IQueryable<FriendRequest> FindAllWithDetails();
+        IQueryable<UserFriend> FindAllWithDetails();
+        Task<UserFriend> GetByIdWithDetailsAsync(int id);
     }
 }

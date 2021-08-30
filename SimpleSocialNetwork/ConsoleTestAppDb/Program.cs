@@ -8,15 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ConsoleTestAppDb
 {
-    public class User
-    {
-        public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        // ... Other properties
 
-        public ICollection<UserFriend> Friends { get; set; }
-    }
     class Program
     {
         static async Task Main(string[] args)
@@ -24,9 +16,10 @@ namespace ConsoleTestAppDb
             //await CreatingAddingUsers();
             //await using (var db = new SocialNetworkDbContextFactory().CreateDbContext(new[] { "" }))
             //{
-            //    var user1 = db.Users.Include(i => i.UserFriends).ThenInclude(t=>t.User)
-            //        .FirstOrDefault(i=>i.Id==2);
-            //    Console.WriteLine($"{user1.UserFriends.FirstOrDefault().UserId}");
+            //    var user1 = db.Users.Include(c => c.FriendsAddedByMe)
+            //        .Include(c => c.FriendsWhoAddedMe).FirstOrDefault(i => i.Id == 1);
+
+
             //}
 
         }
@@ -45,16 +38,29 @@ namespace ConsoleTestAppDb
                 LastName = "Yarosh"
             };
 
+            var user3 = new User()
+            {
+                FirstName = "Anna",
+                LastName = "Hotsuliak"
+            };
+
             await using (var db = new SocialNetworkDbContextFactory().CreateDbContext(new[] { "" }))
             {
-                await db.AddRangeAsync(user1, user2);
+                await db.AddRangeAsync(user1, user2, user3);
                 await db.SaveChangesAsync();
                 var ufr = new UserFriend()
                 {
                     UserId = 1,
                     FriendId = 2
                 };
-                
+
+                var fr = new UserFriend()
+                {
+                    FriendId = 1,
+                    UserId = 3
+                };
+
+                db.UserFriends.AddRange(ufr, fr);
 
                 await db.SaveChangesAsync();
             }

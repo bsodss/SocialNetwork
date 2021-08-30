@@ -13,7 +13,7 @@ namespace DAL
         public SocialNetworkDbContext(DbContextOptions<SocialNetworkDbContext> options) : base(options)
         {
             Database.EnsureDeleted();
-            //Database.EnsureCreated();
+            Database.EnsureCreated();
 
         }
 
@@ -40,7 +40,7 @@ namespace DAL
                 .HasForeignKey(f => f.FriendId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-
+            
             // FriendRequest config
             modelBuilder.Entity<FriendRequest>().HasOne(u => u.RequestBy)
                 .WithMany(w => w.FriendRequestSent)

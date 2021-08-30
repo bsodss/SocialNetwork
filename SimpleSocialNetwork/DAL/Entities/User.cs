@@ -23,6 +23,7 @@ namespace DAL.Entities
 
         public ICollection<UserFriend> FriendsAddedByMe { get; set; }
         public ICollection<UserFriend> FriendsWhoAddedMe{ get; set; }
+
         public ICollection<FriendRequest> FriendRequestSent { get; set; }
         public ICollection<FriendRequest> FriendRequestReceived { get; set; }
         public ICollection<UserPost> Posts { get; set; }

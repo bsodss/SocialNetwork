@@ -49,8 +49,12 @@ namespace DAL.Repositories
 
         public IQueryable<User> FindAllWithDetails()
         {
-            //return _db.Users.Include(i => i.Friends).Include(i=>i.Posts);
-            throw new NotImplementedException();
+            return _db.Users.Include(c => c.FriendRequestSent)
+                .Include(c => c.FriendRequestReceived)
+                .Include(c => c.FriendsAddedByMe)
+                .ThenInclude(t => t.Friend)
+                .Include(c => c.FriendsWhoAddedMe)
+                .ThenInclude(c => c.User);
         }
 
         public async Task<User> GetByIdWithDetailsAsync(int id)

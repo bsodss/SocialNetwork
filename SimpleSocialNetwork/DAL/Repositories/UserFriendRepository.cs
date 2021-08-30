@@ -5,53 +5,55 @@ using System.Text;
 using System.Threading.Tasks;
 using DAL.Entities;
 using DAL.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Repositories
 {
-    public class FriendRequestRepository:IFriendRequestRepository
+    public class UserFriendRepository:IUserFriendRepository
     {
         private readonly SocialNetworkDbContext _db;
 
-        public FriendRequestRepository(SocialNetworkDbContext db)
+        public UserFriendRepository(SocialNetworkDbContext db)
         {
             _db = db;
         }
 
-        public IQueryable<FriendRequest> FindAll()
+        public IQueryable<UserFriend> FindAll()
         {
-            return _db.FriendRequests;
+            throw new NotImplementedException();
         }
 
-        public async Task<FriendRequest> GetByIdAsync(int id)
+        public async Task<UserFriend> GetByIdAsync(int id)
         {
-            return _db.FriendRequests.FirstOrDefault(i => i.Id == id);
+            throw new NotImplementedException();
         }
 
-        public async Task AddAsync(FriendRequest entity)
+        public async Task AddAsync(UserFriend entity)
         {
-            await _db.FriendRequests.AddAsync(entity);
+            throw new NotImplementedException();
         }
 
-        public void Update(FriendRequest entity)
+        public void Update(UserFriend entity)
         {
-            _db.FriendRequests.Update(entity);
+            throw new NotImplementedException();
         }
 
-        public void Delete(FriendRequest entity)
+        public void Delete(UserFriend entity)
         {
-            _db.FriendRequests.Remove(entity);
+            throw new NotImplementedException();
         }
 
         public async Task DeleteByIdAsync(int id)
         {
-            await Task.Run(()=>_db.Remove(_db.FriendRequests.First(i => i.Id == id)));
+            throw new NotImplementedException();
         }
 
-        public IQueryable<FriendRequest> FindAllWithDetails()
+        public IQueryable<UserFriend> FindAllWithDetails()
         {
-            //return _db.FriendRequests.Include(i => i.User)
-            //    .Include(i => i.Friend);
+            throw new NotImplementedException();
+        }
+
+        public async Task<UserFriend> GetByIdWithDetailsAsync(int id)
+        {
             throw new NotImplementedException();
         }
     }
