@@ -4,45 +4,22 @@ using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DAL.Migrations
 {
     [DbContext(typeof(SocialNetworkDbContext))]
-    partial class SocialNetworkDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210830110801_Initiial")]
+    partial class Initiial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.9")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("DAL.Entities.FriendRequest", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("IsConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("RequestById")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RequestToId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RequestById");
-
-                    b.HasIndex("RequestToId");
-
-                    b.ToTable("FriendRequests");
-                });
 
             modelBuilder.Entity("DAL.Entities.User", b =>
                 {
@@ -73,24 +50,37 @@ namespace DAL.Migrations
                     b.Property<byte[]>("MainPhoto")
                         .HasColumnType("varbinary(max)");
 
+                    b.Property<int>("indx")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("DAL.Entities.UserFriend", b =>
+            modelBuilder.Entity("DAL.Entities.FriendRequest", b =>
                 {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("FriendId")
                         .HasColumnType("int");
 
-                    b.HasKey("UserId", "FriendId");
+                    b.Property<bool>("IsConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("FriendId");
 
-                    b.ToTable("UserFriends");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("FriendRequests");
                 });
 
             modelBuilder.Entity("DAL.Entities.UserPost", b =>
@@ -119,33 +109,14 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.Entities.FriendRequest", b =>
                 {
-                    b.HasOne("DAL.Entities.User", "RequestBy")
-                        .WithMany("FriendRequestSent")
-                        .HasForeignKey("RequestById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("DAL.Entities.User", "RequestTo")
-                        .WithMany("FriendRequestReceived")
-                        .HasForeignKey("RequestToId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("RequestBy");
-
-                    b.Navigation("RequestTo");
-                });
-
-            modelBuilder.Entity("DAL.Entities.UserFriend", b =>
-                {
                     b.HasOne("DAL.Entities.User", "Friend")
-                        .WithMany("FriendsWhoAddedMe")
+                        .WithMany("FriendRequestReceived")
                         .HasForeignKey("FriendId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("DAL.Entities.User", "User")
-                        .WithMany("FriendsAddedByMe")
+                        .WithMany("FriendRequestSent")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -169,10 +140,6 @@ namespace DAL.Migrations
                     b.Navigation("FriendRequestReceived");
 
                     b.Navigation("FriendRequestSent");
-
-                    b.Navigation("FriendsAddedByMe");
-
-                    b.Navigation("FriendsWhoAddedMe");
 
                     b.Navigation("Posts");
                 });

@@ -4,14 +4,16 @@ using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DAL.Migrations
 {
     [DbContext(typeof(SocialNetworkDbContext))]
-    partial class SocialNetworkDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210830141806_Added-FriendRequest-Table")]
+    partial class AddedFriendRequestTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,21 +80,6 @@ namespace DAL.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("DAL.Entities.UserFriend", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FriendId")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserId", "FriendId");
-
-                    b.HasIndex("FriendId");
-
-                    b.ToTable("UserFriends");
-                });
-
             modelBuilder.Entity("DAL.Entities.UserPost", b =>
                 {
                     b.Property<int>("Id")
@@ -136,25 +123,6 @@ namespace DAL.Migrations
                     b.Navigation("RequestTo");
                 });
 
-            modelBuilder.Entity("DAL.Entities.UserFriend", b =>
-                {
-                    b.HasOne("DAL.Entities.User", "Friend")
-                        .WithMany("FriendsWhoAddedMe")
-                        .HasForeignKey("FriendId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("DAL.Entities.User", "User")
-                        .WithMany("FriendsAddedByMe")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Friend");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("DAL.Entities.UserPost", b =>
                 {
                     b.HasOne("DAL.Entities.User", "User")
@@ -169,10 +137,6 @@ namespace DAL.Migrations
                     b.Navigation("FriendRequestReceived");
 
                     b.Navigation("FriendRequestSent");
-
-                    b.Navigation("FriendsAddedByMe");
-
-                    b.Navigation("FriendsWhoAddedMe");
 
                     b.Navigation("Posts");
                 });

@@ -9,49 +9,50 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Repositories
 {
-    public class UserFriendRepository:IUserFriendRepository
+    public class FriendRequestRepository:IFriendRequestRepository
     {
         private readonly SocialNetworkDbContext _db;
 
-        public UserFriendRepository(SocialNetworkDbContext db)
+        public FriendRequestRepository(SocialNetworkDbContext db)
         {
             _db = db;
         }
 
-        public IQueryable<UserFriend> FindAll()
+        public IQueryable<FriendRequest> FindAll()
         {
-            return _db.UserFriends;
+            return _db.FriendRequests;
         }
 
-        public async Task<UserFriend> GetByIdAsync(int id)
+        public async Task<FriendRequest> GetByIdAsync(int id)
         {
-            return _db.UserFriends.FirstOrDefault(i => i.Id == id);
+            return _db.FriendRequests.FirstOrDefault(i => i.Id == id);
         }
 
-        public async Task AddAsync(UserFriend entity)
+        public async Task AddAsync(FriendRequest entity)
         {
-            await _db.UserFriends.AddAsync(entity);
+            await _db.FriendRequests.AddAsync(entity);
         }
 
-        public void Update(UserFriend entity)
+        public void Update(FriendRequest entity)
         {
-            _db.UserFriends.Update(entity);
+            _db.FriendRequests.Update(entity);
         }
 
-        public void Delete(UserFriend entity)
+        public void Delete(FriendRequest entity)
         {
-            _db.UserFriends.Remove(entity);
+            _db.FriendRequests.Remove(entity);
         }
 
         public async Task DeleteByIdAsync(int id)
         {
-            await Task.Run(()=>_db.Remove(_db.UserFriends.First(i => i.Id == id)));
+            await Task.Run(()=>_db.Remove(_db.FriendRequests.First(i => i.Id == id)));
         }
 
-        public IQueryable<UserFriend> FindAllWithDetails()
+        public IQueryable<FriendRequest> FindAllWithDetails()
         {
-            return _db.UserFriends.Include(i => i.User)
-                .Include(i => i.Friend);
+            //return _db.FriendRequests.Include(i => i.User)
+            //    .Include(i => i.Friend);
+            throw new NotImplementedException();
         }
     }
 }

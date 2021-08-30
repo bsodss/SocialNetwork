@@ -10,7 +10,7 @@ namespace DAL
     public class UnitOfWork : IUnitOfWork
     {
         private readonly SocialNetworkDbContext _db;
-        private IUserFriendRepository _userFriendRepository;
+        private IFriendRequestRepository _FriendRequestRepository;
 
         private IUserRepository _userRepository;
 
@@ -34,16 +34,16 @@ namespace DAL
             }
         }
 
-        public IUserFriendRepository UserFriendRepository
+        public IFriendRequestRepository FriendRequestRepository
         {
             get
             {
-                if (_userFriendRepository == null)
+                if (_FriendRequestRepository == null)
                 {
-                    _userFriendRepository = new UserFriendRepository(_db);
+                    _FriendRequestRepository = new FriendRequestRepository(_db);
                 }
 
-                return _userFriendRepository;
+                return _FriendRequestRepository;
             }
         }
 

@@ -6,8 +6,8 @@ using DAL.Entities;
 
 namespace DAL.Interfaces
 {
-    public interface IUserFriendRepository: IRepository<UserFriend>
+    public interface IFriendRequestRepository: IRepository<FriendRequest>
     {
-        IQueryable<UserFriend> FindAllWithDetails();
+        IQueryable<FriendRequest> FindAllWithDetails();
     }
 }

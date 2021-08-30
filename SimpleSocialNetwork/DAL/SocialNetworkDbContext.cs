@@ -13,36 +13,45 @@ namespace DAL
         public SocialNetworkDbContext(DbContextOptions<SocialNetworkDbContext> options) : base(options)
         {
             Database.EnsureDeleted();
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
+
         }
 
         public DbSet<User> Users { get; set; }
         public DbSet<UserPost> UserPosts { get; set; }
+        public DbSet<FriendRequest> FriendRequests { get; set; }
         public DbSet<UserFriend> UserFriends { get; set; }
-
-        public DbSet<FriendShip> FriendShips { get; set; }  
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<FriendShip>().HasKey(k => new { k.MeId, k.FriendId });
-            //modelBuilder.Entity<FriendShip>().HasOne(u => u.Me)
-            //    .WithMany(m => m.Friends).HasForeignKey(k => k.MeId)
-            //    .OnDelete(DeleteBehavior.Restrict);
+            // UserFriends config
+            modelBuilder.Entity<UserFriend>()
+                .HasKey(i => new { i.UserId, i.FriendId });
 
-            //modelBuilder.Entity<FriendShip>().HasOne(u => u.Friend)
-            //    .WithMany(m => m.Friends).HasForeignKey(k => k.FriendId)
-            //    .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<UserFriend>()
+                .HasOne(c => c.User)
+                .WithMany(w => w.FriendsAddedByMe)
+                .HasForeignKey(f => f.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<UserFriend>().HasOne(u => u.User)
+            modelBuilder.Entity<UserFriend>()
+                .HasOne(c => c.Friend)
+                .WithMany(w => w.FriendsWhoAddedMe)
+                .HasForeignKey(f => f.FriendId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+
+            // FriendRequest config
+            modelBuilder.Entity<FriendRequest>().HasOne(u => u.RequestBy)
                 .WithMany(w => w.FriendRequestSent)
-                .HasForeignKey(f => f.UserId).OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey(f => f.RequestById).OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<UserFriend>().HasOne(u => u.Friend)
+            modelBuilder.Entity<FriendRequest>().HasOne(u => u.RequestTo)
                 .WithMany(w => w.FriendRequestReceived)
-                .HasForeignKey(f => f.FriendId).OnDelete(DeleteBehavior.Restrict);
-
-
+                .HasForeignKey(f => f.RequestToId).OnDelete(DeleteBehavior.Restrict);
         }
+
+
 
     }
 }

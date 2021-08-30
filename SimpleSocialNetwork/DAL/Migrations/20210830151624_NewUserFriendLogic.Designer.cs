@@ -4,14 +4,16 @@ using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DAL.Migrations
 {
     [DbContext(typeof(SocialNetworkDbContext))]
-    partial class SocialNetworkDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210830151624_NewUserFriendLogic")]
+    partial class NewUserFriendLogic
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -139,13 +141,13 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Entities.UserFriend", b =>
                 {
                     b.HasOne("DAL.Entities.User", "Friend")
-                        .WithMany("FriendsWhoAddedMe")
+                        .WithMany()
                         .HasForeignKey("FriendId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DAL.Entities.User", "User")
-                        .WithMany("FriendsAddedByMe")
+                        .WithMany("UserFriends")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -170,11 +172,9 @@ namespace DAL.Migrations
 
                     b.Navigation("FriendRequestSent");
 
-                    b.Navigation("FriendsAddedByMe");
-
-                    b.Navigation("FriendsWhoAddedMe");
-
                     b.Navigation("Posts");
+
+                    b.Navigation("UserFriends");
                 });
 #pragma warning restore 612, 618
         }

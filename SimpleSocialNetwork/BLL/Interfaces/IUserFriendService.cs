@@ -5,7 +5,7 @@ using DAL.Entities;
 
 namespace BLL.Interfaces
 {
-    public interface IUserFriendService : ICrud<UserFriend>
+    public interface IFriendRequestService : ICrud<FriendRequest>
     {
     }
 }
