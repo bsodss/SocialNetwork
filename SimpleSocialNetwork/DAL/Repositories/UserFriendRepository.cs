@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DAL.Entities;
 using DAL.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Repositories
 {
@@ -19,42 +20,43 @@ namespace DAL.Repositories
 
         public IQueryable<UserFriend> FindAll()
         {
-            throw new NotImplementedException();
+            return _db.UserFriends;
         }
 
         public async Task<UserFriend> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _db.UserFriends.FirstOrDefaultAsync(i => i.UserId == id);
         }
 
         public async Task AddAsync(UserFriend entity)
         {
-            throw new NotImplementedException();
+            await _db.UserFriends.AddAsync(entity);
         }
 
         public void Update(UserFriend entity)
         {
-            throw new NotImplementedException();
+            _db.UserFriends.Update(entity);
         }
 
         public void Delete(UserFriend entity)
         {
-            throw new NotImplementedException();
+            _db.UserFriends.Remove(entity);
         }
 
         public async Task DeleteByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            await Task.Run(()=> _db.UserFriends.Remove(_db.UserFriends.FirstOrDefaultAsync(i=>i.UserId==id).Result));
         }
 
         public IQueryable<UserFriend> FindAllWithDetails()
         {
-            throw new NotImplementedException();
+            return _db.UserFriends.Include(c => c.User)
+                .Include(c => c.Friend);
         }
 
         public async Task<UserFriend> GetByIdWithDetailsAsync(int id)
         {
-            throw new NotImplementedException();
+            return await FindAllWithDetails().FirstOrDefaultAsync(i => i.UserId == id);
         }
     }
 }
