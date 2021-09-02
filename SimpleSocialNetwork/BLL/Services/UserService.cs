@@ -1,37 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using BLL.Interfaces;
+using BLL.Models;
 using DAL.Entities;
+using DAL.Interfaces;
 
 namespace BLL.Services
 {
     public class UserService:IUserService
     {
-        public IEnumerable<User> GetAll()
+        private readonly IUnitOfWork _uow;
+        private readonly IMapper _mapper;
+
+        public UserService(IUnitOfWork UoW, IMapper Mapper)
         {
-            throw new NotImplementedException();
+            _uow = UoW;
+            _mapper = Mapper;
         }
 
-        public async Task<User> GetByIdAsync(int id)
+
+        public IEnumerable<UserModel> GetAll()
         {
-            throw new NotImplementedException();
+            return _mapper.Map<IEnumerable<UserModel>>( _uow.UserRepository.FindAllWithDetails().AsEnumerable());
         }
 
-        public async Task AddAsync(User model)
+        public async Task<UserModel> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return  _mapper.Map<UserModel>(await _uow.UserRepository.GetByIdWithDetailsAsync(id));
         }
 
-        public async Task UpdateAsync(User model)
+        public async Task AddAsync(UserModel model)
         {
-            throw new NotImplementedException();
+            await _uow.UserRepository.AddAsync(_mapper.Map<User>(model));
+        }
+
+        public async Task UpdateAsync(UserModel model)
+        {
+            await Task.Run(()=> _uow.UserRepository.Update(_mapper.Map<User>(model)));
         }
 
         public async Task DeleteByIdAsync(int modelId)
         {
-            throw new NotImplementedException();
+            await _uow.UserRepository.DeleteByIdAsync(modelId);
         }
     }
 }
