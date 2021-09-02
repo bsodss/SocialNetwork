@@ -8,6 +8,6 @@ namespace BLL.Interfaces
 {
     public interface IUserService:ICrud<UserModel>
     {
-
+        IEnumerable<UserModel> GetByFilter(UserFilterSearchModel filter);
     }
 }

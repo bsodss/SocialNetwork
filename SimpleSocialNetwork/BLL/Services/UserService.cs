@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using BLL.Interfaces;
 using BLL.Models;
+using BLL.Validation;
 using DAL.Entities;
 using DAL.Interfaces;
 
@@ -35,17 +36,31 @@ namespace BLL.Services
 
         public async Task AddAsync(UserModel model)
         {
+            if (model == null)
+            {
+                throw new SocialNetworkException("Model cannot be an empty", nameof(AddAsync));
+            }
+
             await _uow.UserRepository.AddAsync(_mapper.Map<User>(model));
         }
 
         public async Task UpdateAsync(UserModel model)
         {
+            if (model == null)
+            {
+                throw new SocialNetworkException("Model cannot be an empty", nameof(AddAsync));
+            }
             await Task.Run(()=> _uow.UserRepository.Update(_mapper.Map<User>(model)));
         }
 
         public async Task DeleteByIdAsync(int modelId)
         {
             await _uow.UserRepository.DeleteByIdAsync(modelId);
+        }
+
+        public IEnumerable<UserModel> GetByFilter(UserFilterSearchModel filter)
+        {
+            return _mapper.Map<IEnumerable<UserModel>>(_uow.UserRepository.FindAll().Where(i => i.IsMale==filter.IsMale).AsEnumerable());
         }
     }
 }

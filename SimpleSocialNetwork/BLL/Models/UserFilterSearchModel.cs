@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BLL.Models
 {
-    public class FilterSearchModel
+    public class UserFilterSearchModel
     {
         public string City { get; set; }
         public int AgeFrom { get; set; }

@@ -2,12 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BLL.Validation
+namespace BLL.Interfaces
 {
-    public static class Validate
+    interface IFriendService
     {
-
-
-
     }
 }
