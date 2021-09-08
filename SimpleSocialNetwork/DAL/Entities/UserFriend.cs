@@ -4,12 +4,12 @@ using System.Text;
 
 namespace DAL.Entities
 {
-    public class UserFriend
+    public class UserAccountFriend
     {
-        public int UserId { get; set; }
-        public User User { get; set; }
+        public string UserAccountId { get; set; }
+        public UserAccount UserAccount { get; set; }
 
-        public int FriendId { get; set; }
-        public User Friend { get; set; }
+        public string FriendId { get; set; }
+        public UserAccount Friend { get; set; }
     }
 }

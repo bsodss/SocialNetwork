@@ -12,55 +12,55 @@ using DAL.Interfaces;
 
 namespace BLL.Services
 {
-    public class UserService:IUserService
+    public class UserAccountService:IUserAccountService
     {
         private readonly IUnitOfWork _uow;
         private readonly IMapper _mapper;
 
-        public UserService(IUnitOfWork UoW, IMapper Mapper)
+        public UserAccountService(IUnitOfWork UoW, IMapper Mapper)
         {
             _uow = UoW;
             _mapper = Mapper;
         }
 
 
-        public IEnumerable<UserModel> GetAll()
+        public IEnumerable<UserAccountModel> GetAll()
         {
-            return _mapper.Map<IEnumerable<UserModel>>( _uow.UserRepository.FindAllWithDetails().AsEnumerable());
+            return _mapper.Map<IEnumerable<UserAccountModel>>( _uow.UserAccountRepository.FindAllWithDetails().AsEnumerable());
         }
 
-        public async Task<UserModel> GetByIdAsync(int id)
+        public async Task<UserAccountModel> GetByIdAsync(string id)
         {
-            return  _mapper.Map<UserModel>(await _uow.UserRepository.GetByIdWithDetailsAsync(id));
+            return  _mapper.Map<UserAccountModel>(await _uow.UserAccountRepository.GetByIdWithDetailsAsync(id));
         }
 
-        public async Task AddAsync(UserModel model)
+        public async Task AddAsync(UserAccountModel model)
         {
             if (model == null)
             {
                 throw new SocialNetworkException("Model cannot be an empty", nameof(AddAsync));
             }
 
-            await _uow.UserRepository.AddAsync(_mapper.Map<User>(model));
+            await _uow.UserAccountRepository.AddAsync(_mapper.Map<UserAccount>(model));
         }
 
-        public async Task UpdateAsync(UserModel model)
+        public async Task UpdateAsync(UserAccountModel model)
         {
             if (model == null)
             {
                 throw new SocialNetworkException("Model cannot be an empty", nameof(AddAsync));
             }
-            await Task.Run(()=> _uow.UserRepository.Update(_mapper.Map<User>(model)));
+            await Task.Run(()=> _uow.UserAccountRepository.Update(_mapper.Map<UserAccount>(model)));
         }
 
-        public async Task DeleteByIdAsync(int modelId)
+        public async Task DeleteByIdAsync(string modelId)
         {
-            await _uow.UserRepository.DeleteByIdAsync(modelId);
+            await _uow.UserAccountRepository.DeleteByIdAsync(modelId);
         }
 
-        public IEnumerable<UserModel> GetByFilter(UserFilterSearchModel filter)
+        public IEnumerable<UserAccountModel> GetByFilter(UserAccountFilterSearchModel filter)
         {
-            return _mapper.Map<IEnumerable<UserModel>>(_uow.UserRepository.FindAll().Where(i => i.IsMale==filter.IsMale).AsEnumerable());
+            return _mapper.Map<IEnumerable<UserAccountModel>>(_uow.UserAccountRepository.FindAll().Where(i => i.IsMale==filter.IsMale).AsEnumerable());
         }
     }
 }

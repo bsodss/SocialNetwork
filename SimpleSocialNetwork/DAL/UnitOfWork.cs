@@ -12,25 +12,25 @@ namespace DAL
         private readonly SocialNetworkDbContext _db;
         private IFriendRequestRepository _FriendRequestRepository;
 
-        private IUserRepository _userRepository;
+        private IUserAccountRepository _UserAccountRepository;
 
-        private IUserPostRepository _userPostRepository;
+        private IUserAccountPostRepository _UserAccountPostRepository;
 
         public UnitOfWork(SocialNetworkDbContext db)
         {
             _db = db;
         }
 
-        public IUserRepository UserRepository
+        public IUserAccountRepository UserAccountRepository
         {
             get
             {
-                if (_userRepository == null)
+                if (_UserAccountRepository == null)
                 {
-                    _userRepository = new UserRepository(_db);
+                    _UserAccountRepository = new UserAccountRepository(_db);
                 }
 
-                return _userRepository;
+                return _UserAccountRepository;
             }
         }
 
@@ -47,16 +47,16 @@ namespace DAL
             }
         }
 
-        public IUserPostRepository UserPostRepository
+        public IUserAccountPostRepository UserAccountPostRepository
         {
             get
             {
-                if (_userPostRepository == null)
+                if (_UserAccountPostRepository == null)
                 {
-                    _userPostRepository = new UserPostRepository(_db);
+                    _UserAccountPostRepository = new UserAccountPostRepository(_db);
                 }
 
-                return _userPostRepository;
+                return _UserAccountPostRepository;
             }
         }
 

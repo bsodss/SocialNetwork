@@ -5,10 +5,10 @@ using System.Text;
 
 namespace DAL.Entities
 {
-    public class UserPost : BaseEntity
+    public class UserAccountPost : BaseEntity
     {
-        public int? UserId { get; set; }
-        public User User { get; set; }
+        public string? UserAccountId { get; set; }
+        public UserAccount UserAccount { get; set; }
 
         [Required]
         public string Text { get; set; }

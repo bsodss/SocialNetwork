@@ -12,7 +12,7 @@ namespace BLL
     {
         public AutomapperProfile()
         {
-            CreateMap<User, UserModel>()
+            CreateMap<UserAccount, UserAccountModel>()
                 .ForMember(m => m.FriendRequestReceivedIds,
                     c => c.MapFrom(f => f.FriendRequestReceived.Select(request => request.Id)))
                 .ForMember(dest=>dest.FriendRequestSentIds, 

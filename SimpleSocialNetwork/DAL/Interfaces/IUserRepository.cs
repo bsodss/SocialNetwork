@@ -7,9 +7,9 @@ using DAL.Entities;
 
 namespace DAL.Interfaces
 {
-    public interface IUserRepository : IRepository<User>
+    public interface IUserAccountRepository : IRepository<UserAccount>
     {
-        IQueryable<User> FindAllWithDetails();
-        Task<User> GetByIdWithDetailsAsync(int id);
+        IQueryable<UserAccount> FindAllWithDetails();
+        Task<UserAccount> GetByIdWithDetailsAsync(string id);
     }
 }

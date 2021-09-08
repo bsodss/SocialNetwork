@@ -8,12 +8,12 @@ namespace DAL.Entities
 {
     public class FriendRequest :BaseEntity
     {
-        public int RequestById { get; set; }
-        public User RequestBy { get; set; }
+        public string RequestById { get; set; }
+        public UserAccount RequestBy { get; set; }
 
 
-        public int RequestToId { get; set; }
-        public User RequestTo { set; get; }
+        public string RequestToId { get; set; }
+        public UserAccount RequestTo { set; get; }
         public bool IsConfirmed { get; set; }
 
     }

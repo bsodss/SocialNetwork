@@ -11,7 +11,7 @@ namespace DAL.Interfaces
     {
         IQueryable<TEntity> FindAll();
 
-        Task<TEntity> GetByIdAsync(int id);
+        Task<TEntity> GetByIdAsync(string id);
 
         Task AddAsync(TEntity entity);
 
@@ -19,7 +19,7 @@ namespace DAL.Interfaces
 
         void Delete(TEntity entity);
 
-        Task DeleteByIdAsync(int id);
+        Task DeleteByIdAsync(string id);
     }
 
 }

@@ -9,55 +9,55 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Repositories
 {
-    public class UserRepository:IUserRepository
+    public class UserAccountRepository:IUserAccountRepository
     {
         private readonly SocialNetworkDbContext _db;
 
-        public UserRepository(SocialNetworkDbContext db)
+        public UserAccountRepository(SocialNetworkDbContext db)
         {
             _db = db;
         }
-        public IQueryable<User> FindAll()
+        public IQueryable<UserAccount> FindAll()
         {
-            return _db.Users;
+            return _db.UserAccounts;
         }
 
-        public async Task<User> GetByIdAsync(int id)
+        public async Task<UserAccount> GetByIdAsync(string id)
         {
-            return await _db.Users.FirstOrDefaultAsync(i => i.Id == id);
+            return await _db.UserAccounts.FirstOrDefaultAsync(i => i.Id == id);
         }
 
-        public async Task AddAsync(User entity)
+        public async Task AddAsync(UserAccount entity)
         {
-            await _db.Users.AddAsync(entity);
+            await _db.UserAccounts.AddAsync(entity);
         }
 
-        public void Update(User entity)
+        public void Update(UserAccount entity)
         {
-            _db.Users.Update(entity);
+            _db.UserAccounts.Update(entity);
         }
 
-        public void Delete(User entity)
+        public void Delete(UserAccount entity)
         {
-            _db.Users.Remove(entity);
+            _db.UserAccounts.Remove(entity);
         }
 
-        public async Task DeleteByIdAsync(int id)
+        public async Task DeleteByIdAsync(string id)
         {
-            await Task.Run(()=> _db.Users.Remove(_db.Users.First(i => i.Id == id)));
+            await Task.Run(()=> _db.UserAccounts.Remove(_db.UserAccounts.First(i => i.Id == id)));
         }
 
-        public IQueryable<User> FindAllWithDetails()
+        public IQueryable<UserAccount> FindAllWithDetails()
         {
-            return _db.Users.Include(c => c.FriendRequestSent)
+            return _db.UserAccounts.Include(c => c.FriendRequestSent)
                 .Include(c => c.FriendRequestReceived)
                 .Include(c => c.FriendsAddedByMe)
                 .ThenInclude(t => t.Friend)
                 .Include(c => c.FriendsWhoAddedMe)
-                .ThenInclude(c => c.User);
+                .ThenInclude(c => c.UserAccount);
         }
 
-        public async Task<User> GetByIdWithDetailsAsync(int id)
+        public async Task<UserAccount> GetByIdWithDetailsAsync(string id)
         {
             return await FindAllWithDetails().FirstOrDefaultAsync(i => i.Id == id);
         }

@@ -23,7 +23,7 @@ namespace DAL.Repositories
             return _db.FriendRequests;
         }
 
-        public async Task<FriendRequest> GetByIdAsync(int id)
+        public async Task<FriendRequest> GetByIdAsync(string id)
         {
             return await _db.FriendRequests.FirstOrDefaultAsync(i => i.Id == id);
         }
@@ -43,7 +43,7 @@ namespace DAL.Repositories
             _db.FriendRequests.Remove(entity);
         }
 
-        public async Task DeleteByIdAsync(int id)
+        public async Task DeleteByIdAsync(string id)
         {
             await Task.Run(()=>_db.Remove(_db.FriendRequests.First(i => i.Id == id)));
         }

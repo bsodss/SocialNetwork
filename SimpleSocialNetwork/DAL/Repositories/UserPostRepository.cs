@@ -9,43 +9,43 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Repositories
 {
-    public class UserPostRepository: IUserPostRepository
+    public class UserAccountPostRepository: IUserAccountPostRepository
     {
         private readonly SocialNetworkDbContext _db;
 
-        public UserPostRepository(SocialNetworkDbContext db)
+        public UserAccountPostRepository(SocialNetworkDbContext db)
         {
             _db = db;
         }
 
-        public async Task AddAsync(UserPost entity)
+        public async Task AddAsync(UserAccountPost entity)
         {
-            await _db.UserPosts.AddAsync(entity);
+            await _db.UserAccountPosts.AddAsync(entity);
         }
 
-        public void Delete(UserPost entity)
+        public void Delete(UserAccountPost entity)
         {
-            _db.UserPosts.Remove(entity);
+            _db.UserAccountPosts.Remove(entity);
         }
 
-        public async Task DeleteByIdAsync(int id)
+        public async Task DeleteByIdAsync(string id)
         {
-            _db.UserPosts.Remove(_db.UserPosts.First(i=> i.Id==id));
+            _db.UserAccountPosts.Remove(_db.UserAccountPosts.First(i=> i.Id==id));
         }
 
-        public IQueryable<UserPost> FindAll()
+        public IQueryable<UserAccountPost> FindAll()
         {
-            return _db.UserPosts;
+            return _db.UserAccountPosts;
         }
 
-        public async Task<UserPost> GetByIdAsync(int id)
+        public async Task<UserAccountPost> GetByIdAsync(string id)
         {
-            return await _db.UserPosts.FirstOrDefaultAsync(i => i.Id == id);
+            return await _db.UserAccountPosts.FirstOrDefaultAsync(i => i.Id == id);
         }
 
-        public void Update(UserPost entity)
+        public void Update(UserAccountPost entity)
         {
-            _db.UserPosts.Update(entity);
+            _db.UserAccountPosts.Update(entity);
         }
     }
 }

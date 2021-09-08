@@ -5,7 +5,7 @@ using DAL.Entities;
 
 namespace DAL.Interfaces
 {
-    public interface IUserPostRepository : IRepository<UserPost>
+    public interface IUserAccountPostRepository : IRepository<UserAccountPost>
     {
     }
 }

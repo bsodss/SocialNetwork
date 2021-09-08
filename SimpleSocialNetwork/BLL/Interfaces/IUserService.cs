@@ -6,8 +6,8 @@ using DAL.Entities;
 
 namespace BLL.Interfaces
 {
-    public interface IUserService:ICrud<UserModel>
+    public interface IUserAccountService:ICrud<UserAccountModel>
     {
-        IEnumerable<UserModel> GetByFilter(UserFilterSearchModel filter);
+        IEnumerable<UserAccountModel> GetByFilter(UserAccountFilterSearchModel filter);
     }
 }
