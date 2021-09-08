@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using BLL.Models;
 using DAL.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace BLL.Interfaces
 {
-    public interface IUserAccountService:ICrud<UserAccountModel>
+    public interface IUserService
     {
-        IEnumerable<UserAccountModel> GetByFilter(UserAccountFilterSearchModel filter);
+        public UserManager<User> userManager { get; }
+        public SignInManager<User> signInManager { get; }
     }
 }

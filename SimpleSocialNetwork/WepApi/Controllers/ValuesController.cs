@@ -4,7 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BLL.Interfaces;
+using BLL.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace WepApi.Controllers
 {
@@ -15,24 +18,29 @@ namespace WepApi.Controllers
     {
         public static List<TodoItem> db;
 
-        public ValuesController()
+        private readonly IUserService _userService;
+        public ValuesController(IUserService userService)
         {
-            db = new List<TodoItem>()
-            {
-                new TodoItem()
-                {
-                    Id = 1,
-                    Name = "End authorization",
-                    IsComplited = false
-                }
-            };
+            _userService = userService;
         }
 
+        //public ValuesController()
+        //{
+        //    db = new List<TodoItem>()
+        //    {
+        //        new TodoItem()
+        //        {
+        //            Id = 1,
+        //            Name = "End authorization",
+        //            IsComplited = false
+        //        }
+        //    };
+        //}
 
-        [Authorize]
         [HttpGet]
         public ActionResult<List<TodoItem>> DataReturn()
         {
+            db = new List<TodoItem>();
             db.Add(new TodoItem()
             {
                 Id = 10,

@@ -26,6 +26,8 @@ namespace DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+   
+            
 
             // UserAccountFriends config
             modelBuilder.Entity<UserAccountFriend>()

@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using DAL.Entities;
 using DAL.Interfaces;
 using DAL.Repositories;
+using Microsoft.AspNetCore.Identity;
+
 
 namespace DAL
 {
@@ -15,6 +18,8 @@ namespace DAL
         private IUserAccountRepository _UserAccountRepository;
 
         private IUserAccountPostRepository _UserAccountPostRepository;
+
+
 
         public UnitOfWork(SocialNetworkDbContext db)
         {

@@ -16,6 +16,7 @@ namespace DAL.Repositories
         public UserAccountFriendRepository(SocialNetworkDbContext db)
         {
             _db = db;
+            
         }
 
         public IQueryable<UserAccountFriend> FindAll()
