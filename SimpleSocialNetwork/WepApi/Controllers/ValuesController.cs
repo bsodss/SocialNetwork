@@ -5,7 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BLL.Interfaces;
+using BLL.Models;
 using BLL.Services;
+using DAL.Entities;
+using DAL.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 
@@ -16,7 +19,7 @@ namespace WepApi.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        public static List<TodoItem> db;
+
 
         private readonly IUserService _userService;
         public ValuesController(IUserService userService)
@@ -24,52 +27,45 @@ namespace WepApi.Controllers
             _userService = userService;
         }
 
-        //public ValuesController()
-        //{
-        //    db = new List<TodoItem>()
-        //    {
-        //        new TodoItem()
-        //        {
-        //            Id = 1,
-        //            Name = "End authorization",
-        //            IsComplited = false
-        //        }
-        //    };
-        //}
 
-        [HttpGet]
-        public ActionResult<List<TodoItem>> DataReturn()
+        [HttpGet(Name = "GetAll")]
+        public ActionResult<IEnumerable<UserRegistrationModel>> GetUsers()
         {
-            db = new List<TodoItem>();
-            db.Add(new TodoItem()
+            if (_userService?.userManager?.Users != null)
             {
-                Id = 10,
-                Name = "name",
-                IsComplited = true
-            });
-            return Ok(db);
-        }
 
-        [HttpGet("{id}", Name = "GetById")]
-        public ActionResult<TodoItem> DataReturn(int id)
-        {
-            var res = db.FirstOrDefault(i => i.Id == id);
-            if (res == null)
-            {
-                return NotFound();
+
+                return new ObjectResult(_userService.userManager.Users.Select(s => new UserRegistrationModel()
+                {
+                    Id = s.Id,
+                    Email = s.Email
+                }).AsEnumerable());
             }
 
-            return Ok(res);
+            return BadRequest();
         }
 
-
-        [HttpPost]
-        public async Task<ActionResult<TodoItem>> Add([FromBody] TodoItem data)
+        [HttpPost("signup")]
+        public async Task<ActionResult> Register([FromBody] UserRegistrationModel model)
         {
+            if (model == null)
+                return NotFound();
+            User user = new User()
+            {
+                Email = model.Email,
+                UserName = model.Email,
+            };
+            var result = await _userService.userManager.CreateAsync(user, model.Password);
+            
+            if (result.Succeeded)
+            {
+                return NoContent();
+            }
 
-            await Task.Run(() => db.Add(data));
-            return CreatedAtRoute("GetById", new { id = data.Id }, data);
+            return Problem(result.Errors.First().Description, null, 500);
         }
+
+
     }
 
     public class TodoItem

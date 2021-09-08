@@ -14,8 +14,8 @@ namespace DAL
 
         public SocialNetworkDbContext(DbContextOptions<SocialNetworkDbContext> options) : base(options)
         {
-            Database.EnsureDeleted();
-            //Database.EnsureCreated();
+            //Database.EnsureDeleted();
+            Database.EnsureCreated();
 
         }
 
@@ -26,7 +26,6 @@ namespace DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-   
             
 
             // UserAccountFriends config

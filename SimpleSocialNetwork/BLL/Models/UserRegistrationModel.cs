@@ -7,6 +7,7 @@ namespace BLL.Models
 {
     public class UserRegistrationModel
     {
+        public string Id { get; set; }
         [Required]
         public string Email { get; set; }
 
