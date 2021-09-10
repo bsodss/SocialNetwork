@@ -1443,6 +1443,7 @@
       "DAL/1.0.0": {
         "dependencies": {
           "Microsoft.AspNetCore.Authorization": "3.1.0",
+          "Microsoft.AspNetCore.Identity": "2.2.0",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "5.0.9",
           "Microsoft.EntityFrameworkCore": "5.0.9",
           "Microsoft.EntityFrameworkCore.SqlServer": "5.0.9"

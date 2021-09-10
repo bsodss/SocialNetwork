@@ -13,6 +13,7 @@ using BLL.Interfaces;
 using BLL.Services;
 using DAL;
 using DAL.Entities;
+using DAL.Identity;
 using DAL.Interfaces;
 using DAL.Repositories;
 using Microsoft.AspNetCore.Identity;
@@ -52,6 +53,7 @@ namespace WepApi
             services.AddTransient<IUserAccountPostRepository, UserAccountPostRepository>();
             services.AddTransient<IFriendRequestRepository, FriendRequestRepository>();
 
+            services.AddTransient<IIdentityManagers, IdentityManagers>();
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IUserAccountService, UserAccountService>();
