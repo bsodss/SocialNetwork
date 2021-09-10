@@ -27,7 +27,7 @@ namespace BLL.Services
 
         }
 
-        public async Task RegisterUserAsync(UserRegistrationModel model)
+        public async Task<IdentityResult> RegisterUserAsync(UserRegistrationModel model)
         {
             if (model == null)
             {
@@ -58,14 +58,12 @@ namespace BLL.Services
                 });
                 await _identityManagers.SignInManager.SignInAsync(user, false);
             }
-            else
-            {
-                throw new SocialNetworkException("User cannot be registered", nameof(RegisterUserAsync));
-            }
+
+            return result;
 
         }
 
-        public async Task LogInUserAsync(LogInModel model)
+        public async Task<SignInResult> LogInUserAsync(LogInModel model)
         {
             if (model == null)
             {
@@ -79,12 +77,7 @@ namespace BLL.Services
             }
 
             var result = await _identityManagers.SignInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
-
-            if (!result.Succeeded)
-            {
-                throw new SocialNetworkException("Login or password is incorrect");
-            }
-
+            return result;
 
         }
 

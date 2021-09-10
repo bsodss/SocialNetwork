@@ -1,16 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using BLL.Interfaces;
 using BLL.Models;
-using BLL.Services;
-using DAL.Entities;
-using DAL.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 
 namespace WepApi.Controllers
 {
@@ -29,26 +22,50 @@ namespace WepApi.Controllers
 
 
         [HttpPost("signup")]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult<UserRegistrationModel>> SignUpAsync([FromBody] UserRegistrationModel model)
         {
-            await _userService.RegisterUserAsync(model);
-            return Ok(model);
+            if (!ModelState.IsValid)
+                return BadRequest(model);
+
+            var result = await _userService.RegisterUserAsync(model);
+
+            if (result.Succeeded)
+            {
+                return Created(string.Empty, string.Empty);
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+
+            return BadRequest(model);
+            //return Problem(result.Errors.First().Description, null, 500);
+
         }
 
         [HttpPost("signin")]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult<LogInModel>> LogInAsync([FromBody] LogInModel model)
         {
-            if (model == null)
+            if (!ModelState.IsValid)
+                return BadRequest(model);
+
+            var result = await _userService.LogInUserAsync(model);
+            if (result.Succeeded)
             {
-                return BadRequest();
+                return Ok();
             }
-            await _userService.LogInUserAsync(model);
-            return Ok(model);
+
+            return BadRequest(model);
         }
 
+        [Authorize]
         [HttpPost("logout")]
         public async  Task<ActionResult> LogOut()
         {
+         
             await _userService.LogOut();
             return NoContent();
         }

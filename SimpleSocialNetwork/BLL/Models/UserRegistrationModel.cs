@@ -8,6 +8,8 @@ namespace BLL.Models
     public class UserRegistrationModel
     {
         public string Id { get; set; }
+
+        [EmailAddress]
         [Required]
         public string Email { get; set; }
 
