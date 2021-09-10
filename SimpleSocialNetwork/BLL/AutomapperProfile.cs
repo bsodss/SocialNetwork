@@ -19,6 +19,8 @@ namespace BLL
                     map=> map.MapFrom(request=> request.FriendRequestSent.Select(s=>s.Id)))
                 .ForMember(dest=>dest.PostsIds,
                     map=> map.MapFrom(req=> req.Posts.Select(s=>s.Id))).ReverseMap();
+
+            
         }
     }
 }

@@ -15,6 +15,13 @@ namespace BLL.Models
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
+        [Required] 
+        public string FirstName { get; set; }
+
+        [Required]
+        public string LastName { get; set; }
+
+
         [Required]
         [Compare("Password", ErrorMessage = "Passwords are not equals")]
         [DataType(DataType.Password)]
