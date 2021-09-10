@@ -11,6 +11,7 @@ namespace BLL.Interfaces
     public interface IUserService
     {
         public Task RegisterUserAsync(UserRegistrationModel model);
-
+        public Task LogInUserAsync(LogInModel model);
+        public Task LogOut();
     }
 }

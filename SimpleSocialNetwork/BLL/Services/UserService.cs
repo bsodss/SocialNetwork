@@ -9,6 +9,8 @@ using DAL.Entities;
 using DAL.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using Microsoft.VisualBasic;
 
 namespace BLL.Services
@@ -22,7 +24,7 @@ namespace BLL.Services
         {
             _identityManagers = identityManagers;
             _uow = uoW;
-            
+
         }
 
         public async Task RegisterUserAsync(UserRegistrationModel model)
@@ -31,7 +33,6 @@ namespace BLL.Services
             {
                 throw new SocialNetworkException("You did not provide correct data", nameof(RegisterUserAsync));
             }
-
             if (model.Password != model.ConfirmPassword)
             {
                 throw new SocialNetworkException("Passwords are not equals", nameof(RegisterUserAsync));
@@ -51,12 +52,45 @@ namespace BLL.Services
                     UserProfile = new UserProfile()
                     {
                         FirstName = model.FirstName,
-                        LastName = model.LastName
+                        LastName = model.LastName,
+                        IsMale = model.IsMale
                     }
                 });
                 await _identityManagers.SignInManager.SignInAsync(user, false);
             }
+            else
+            {
+                throw new SocialNetworkException("User cannot be registered", nameof(RegisterUserAsync));
+            }
 
+        }
+
+        public async Task LogInUserAsync(LogInModel model)
+        {
+            if (model == null)
+            {
+                throw new SocialNetworkException("You did not provide correct data", nameof(RegisterUserAsync));
+            }
+
+            var user = await _identityManagers.UserManager.Users.SingleOrDefaultAsync(i => i.Email == model.Email);
+            if (user == null)
+            {
+                throw new SocialNetworkException("User not found");
+            }
+
+            var result = await _identityManagers.SignInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
+
+            if (!result.Succeeded)
+            {
+                throw new SocialNetworkException("Login or password is incorrect");
+            }
+
+
+        }
+
+        public async Task LogOut()
+        {
+            await _identityManagers.SignInManager.SignOutAsync();
         }
     }
 }
