@@ -47,7 +47,12 @@ namespace BLL.Services
             {
                 await _uow.UserAccountRepository.AddAsync(new UserAccount()
                 {
-                    User = user
+                    User = user,
+                    UserProfile = new UserProfile()
+                    {
+                        FirstName = model.FirstName,
+                        LastName = model.LastName
+                    }
                 });
                 await _identityManagers.SignInManager.SignInAsync(user, false);
             }

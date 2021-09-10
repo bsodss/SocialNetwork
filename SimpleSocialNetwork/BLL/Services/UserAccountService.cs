@@ -61,7 +61,7 @@ namespace BLL.Services
 
         public IEnumerable<UserAccountModel> GetByFilter(UserAccountFilterSearchModel filter)
         {
-            return _mapper.Map<IEnumerable<UserAccountModel>>(_uow.UserAccountRepository.FindAll().Where(i => i.IsMale==filter.IsMale).AsEnumerable());
+            throw new NotImplementedException();
         }
     }
 }
