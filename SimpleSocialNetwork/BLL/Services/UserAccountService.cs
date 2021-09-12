@@ -42,7 +42,10 @@ namespace BLL.Services
                 throw new SocialNetworkException("Model cannot be an empty", nameof(AddAsync));
             }
 
-            await _uow.UserAccountRepository.AddAsync(_mapper.Map<UserAccount>(model));
+            var mapped = _mapper.Map<UserAccount>(model);
+            await _uow.UserAccountRepository.AddAsync(mapped);
+            await _uow.SaveAsync();
+            model.Id = mapped.Id;
         }
 
         public async Task UpdateAsync(UserAccountModel model)
@@ -51,12 +54,16 @@ namespace BLL.Services
             {
                 throw new SocialNetworkException("Model cannot be an empty", nameof(AddAsync));
             }
-            await Task.Run(()=> _uow.UserAccountRepository.Update(_mapper.Map<UserAccount>(model)));
+            var mapped = _mapper.Map<UserAccount>(model);
+            await Task.Run(()=> _uow.UserAccountRepository.Update(mapped));
+            await _uow.SaveAsync();
+            model.Id = mapped.Id;
         }
 
         public async Task DeleteByIdAsync(string modelId)
         {
             await _uow.UserAccountRepository.DeleteByIdAsync(modelId);
+            await _uow.SaveAsync();
         }
 
         public IEnumerable<UserAccountModel> GetByFilter(UserAccountFilterSearchModel filter)

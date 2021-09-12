@@ -4,14 +4,16 @@ using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DAL.Migrations
 {
     [DbContext(typeof(SocialNetworkDbContext))]
-    partial class SocialNetworkDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210911165327_Changed-User-Table")]
+    partial class ChangedUserTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -112,24 +114,6 @@ namespace DAL.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime?>("Birthday")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsMale")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte[]>("MainPhoto")
-                        .HasColumnType("varbinary(max)");
-
                     b.HasKey("Id");
 
                     b.ToTable("UserAccounts");
@@ -170,6 +154,36 @@ namespace DAL.Migrations
                     b.HasIndex("UserAccountId");
 
                     b.ToTable("UserAccountPosts");
+                });
+
+            modelBuilder.Entity("DAL.Entities.UserProfile", b =>
+                {
+                    b.Property<string>("UserAccountId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime?>("Birthday")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<bool>("IsMale")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastName")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<byte[]>("MainPhoto")
+                        .HasColumnType("varbinary(max)");
+
+                    b.HasKey("UserAccountId");
+
+                    b.ToTable("UserProfile");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -359,6 +373,17 @@ namespace DAL.Migrations
                     b.Navigation("UserAccount");
                 });
 
+            modelBuilder.Entity("DAL.Entities.UserProfile", b =>
+                {
+                    b.HasOne("DAL.Entities.UserAccount", "UserAccount")
+                        .WithOne("UserProfile")
+                        .HasForeignKey("DAL.Entities.UserProfile", "UserAccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UserAccount");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -421,6 +446,8 @@ namespace DAL.Migrations
                     b.Navigation("FriendsWhoAddedMe");
 
                     b.Navigation("Posts");
+
+                    b.Navigation("UserProfile");
                 });
 #pragma warning restore 612, 618
         }

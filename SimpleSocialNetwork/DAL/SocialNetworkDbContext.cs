@@ -25,12 +25,12 @@ namespace DAL
         public DbSet<FriendRequest> FriendRequests { get; set; }
         public DbSet<UserAccountFriend> UserAccountFriends { get; set; }
 
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfiguration(new UserAccountFriendConfiguration());
             modelBuilder.ApplyConfiguration(new FriendRequestConfiguration());
-            base.OnModelCreating(modelBuilder);
         }
 
     }

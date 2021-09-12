@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Repositories
 {
-    public class FriendRequestRepository:IFriendRequestRepository
+    public class FriendRequestRepository: IFriendRequestRepository
     {
         private readonly SocialNetworkDbContext _db;
 

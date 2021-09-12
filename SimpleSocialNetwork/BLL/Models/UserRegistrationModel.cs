@@ -22,6 +22,8 @@ namespace BLL.Models
         [Required]
         public bool IsMale { get; set; }
 
+        [Required] public DateTime Birthday { get; set; }
+
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }

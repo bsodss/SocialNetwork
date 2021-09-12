@@ -14,7 +14,13 @@ namespace DAL.Entities
         [ForeignKey("User")]
         public new string Id { get; set; }
         public User User { get; set; }
-        public UserProfile UserProfile { get; set; }
+
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public DateTime? Birthday { get; set; }
+        public string City { get; set; }
+        public bool IsMale { get; set; }
+        public byte[] MainPhoto { get; set; }
 
         public ICollection<UserAccountFriend> FriendsAddedByMe { get; set; }
         public ICollection<UserAccountFriend> FriendsWhoAddedMe { get; set; }

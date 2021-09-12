@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
-using Microsoft.VisualBasic;
 
 namespace BLL.Services
 {
@@ -26,6 +25,7 @@ namespace BLL.Services
             _uow = uoW;
 
         }
+
 
         public async Task<IdentityResult> RegisterUserAsync(UserRegistrationModel model)
         {
@@ -43,24 +43,26 @@ namespace BLL.Services
                 Email = model.Email,
                 UserName = model.Email
             };
+
             var result = await _identityManagers.UserManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
                 await _uow.UserAccountRepository.AddAsync(new UserAccount()
                 {
                     User = user,
-                    UserProfile = new UserProfile()
-                    {
-                        FirstName = model.FirstName,
-                        LastName = model.LastName,
-                        IsMale = model.IsMale
-                    }
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Birthday = model.Birthday
                 });
+                await _uow.SaveAsync();
+                if (await _identityManagers.RoleManager.RoleExistsAsync("User"))
+                {
+                    await _identityManagers.UserManager.AddToRoleAsync(user, "User");
+                }
+
                 await _identityManagers.SignInManager.SignInAsync(user, false);
             }
-
             return result;
-
         }
 
         public async Task<SignInResult> LogInUserAsync(LogInModel model)
@@ -79,6 +81,17 @@ namespace BLL.Services
             var result = await _identityManagers.SignInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
             return result;
 
+        }
+
+        public async Task<IdentityResult> CreateRoleAsync(string roleName)
+        {
+
+            if ((await _identityManagers.RoleManager.RoleExistsAsync(roleName)))
+            {
+                throw new SocialNetworkException("Role with such name is already exist!");
+            }
+
+            return await _identityManagers.RoleManager.CreateAsync(new IdentityRole(roleName));
         }
 
         public async Task LogOut()

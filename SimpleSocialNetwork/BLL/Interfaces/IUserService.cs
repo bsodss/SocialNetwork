@@ -13,5 +13,6 @@ namespace BLL.Interfaces
         public Task<IdentityResult> RegisterUserAsync(UserRegistrationModel model);
         public Task<SignInResult> LogInUserAsync(LogInModel model);
         public Task LogOut();
+        public  Task<IdentityResult> CreateRoleAsync(string roleName);
     }
 }

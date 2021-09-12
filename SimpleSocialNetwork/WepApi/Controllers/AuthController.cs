@@ -1,8 +1,10 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using BLL.Interfaces;
 using BLL.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using BLL.Validation;
 using Microsoft.AspNetCore.Authorization;
 
 namespace WepApi.Controllers
@@ -12,7 +14,7 @@ namespace WepApi.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        public IUserService _userService { get; set; }
+        private readonly IUserService _userService;
 
         public AuthController(IUserService userService)
         {
@@ -20,11 +22,32 @@ namespace WepApi.Controllers
         }
 
 
+        //TODO: Delete from auth controller
+        [HttpPost("createrole")]
+        public async Task<ActionResult> CreateRoleAsync([FromQuery] string name)
+        {
+            try
+            {
+                var result = await _userService.CreateRoleAsync(name);
+                if (!result.Succeeded)
+                {
+                    return BadRequest();
+                }
+
+            }
+            catch (SocialNetworkException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            return NoContent();
+        }
+
 
         [HttpPost("signup")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult<UserRegistrationModel>> SignUpAsync([FromBody] UserRegistrationModel model)
+        public async Task<ActionResult> SignUpAsync([FromBody] UserRegistrationModel model)
         {
+
             if (!ModelState.IsValid)
                 return BadRequest(model);
 
@@ -39,14 +62,11 @@ namespace WepApi.Controllers
             {
                 ModelState.AddModelError(string.Empty, error.Description);
             }
-
-            return BadRequest(model);
-            //return Problem(result.Errors.First().Description, null, 500);
+            return Problem(result.Errors.First().Description, null, 500);
 
         }
 
         [HttpPost("signin")]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult<LogInModel>> LogInAsync([FromBody] LogInModel model)
         {
             if (!ModelState.IsValid)
@@ -63,9 +83,8 @@ namespace WepApi.Controllers
 
         [Authorize]
         [HttpPost("logout")]
-        public async  Task<ActionResult> LogOut()
+        public async Task<ActionResult> LogOut()
         {
-         
             await _userService.LogOut();
             return NoContent();
         }

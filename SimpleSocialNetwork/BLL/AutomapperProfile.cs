@@ -15,12 +15,15 @@ namespace BLL
             CreateMap<UserAccount, UserAccountModel>()
                 .ForMember(m => m.FriendRequestReceivedIds,
                     c => c.MapFrom(f => f.FriendRequestReceived.Select(request => request.Id)))
-                .ForMember(dest=>dest.FriendRequestSentIds, 
-                    map=> map.MapFrom(request=> request.FriendRequestSent.Select(s=>s.Id)))
-                .ForMember(dest=>dest.PostsIds,
-                    map=> map.MapFrom(req=> req.Posts.Select(s=>s.Id))).ReverseMap();
+                .ForMember(dest => dest.FriendRequestSentIds,
+                    map => map.MapFrom(req => req.FriendRequestSent.Select(s => s.Id)))
+                .ForMember(dest => dest.PostsIds,
+                    map => map.MapFrom(req => req.Posts.Select(s => s.Id)))
+                .ForMember(dest => dest.UserAccountFriendsIds,
+                    map => map.MapFrom(req => Enumerable.Concat(req.FriendsAddedByMe.Select(s => s.FriendId),
+                        req.FriendsWhoAddedMe.Select(s => s.UserAccountId)))).ReverseMap();
 
-            
+
         }
     }
 }
