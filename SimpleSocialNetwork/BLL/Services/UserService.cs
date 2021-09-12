@@ -23,7 +23,6 @@ namespace BLL.Services
         {
             _identityManagers = identityManagers;
             _uow = uoW;
-
         }
 
 
@@ -83,6 +82,7 @@ namespace BLL.Services
 
         }
 
+        //TODO: Add RoleService
         public async Task<IdentityResult> CreateRoleAsync(string roleName)
         {
 

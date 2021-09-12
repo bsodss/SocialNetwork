@@ -10,10 +10,10 @@ namespace BLL.Interfaces
 {
     public interface IFriendService
     {
-        public void SendFriendRequest(string senderId, string receiverId);
+        public Task SendFriendRequest(string senderId, string receiverId);
 
-        public void AcceptFriendRequest();
-        public void DiscardFriendRequest();
+        public void AcceptFriendRequest(string userId, string friendId);
+        public void DeclineFriendRequest(string userId, string friendId);
 
         public Task<IEnumerable<UserAccountModel>> GetUserFriends(string userId);
 
