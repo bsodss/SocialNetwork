@@ -45,7 +45,7 @@ namespace BLL.Services
         public async Task<IEnumerable<UserAccountModel>> GetUserFriendsRequest(string userId)
         {
 
-            var userFriendsFriendRequests =  _uow.FriendRequestRepository.FindAllWithDetails().Where(r => r.RequestToId == userId);
+            var userFriendsFriendRequests = _uow.FriendRequestRepository.FindAllWithDetails().Where(r => r.RequestToId == userId);
             if (userFriendsFriendRequests == null)
             {
                 throw new SocialNetworkException("User is not exist");
@@ -70,8 +70,8 @@ namespace BLL.Services
                 UserAccountId = senderId
             };
             await _uow.UserAccountFriendRepository.AddAsync(friendship);
+            _uow.FriendRequestRepository.Delete(friendRequest);
             await _uow.SaveAsync();
-            //TODO: Add user friend repository and delete friendRequest(see above)
         }
 
         public async Task DeclineFriendRequest(string userId, string friendId)

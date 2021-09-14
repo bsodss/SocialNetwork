@@ -36,7 +36,14 @@ namespace WepApi.Controllers
             return new ObjectResult(await _friendService.GetUserFriendsRequest(userId));
         }
 
-        [HttpPost("{senderId}/add/{receiverId}")]
+        [HttpPost("{userId}/confirmfriendship/{friendId}")]
+        public async Task<ActionResult> ConfirmFriendship(string userId, string friendId)
+        {
+            await _friendService.AcceptFriendRequest(userId, friendId);
+            return Ok();
+        }
+
+            [HttpPost("{senderId}/add/{receiverId}")]
         public async Task<ActionResult> SendFriendRequest(string senderId, string receiverId)
         {
             await _friendService.SendFriendRequest(senderId, receiverId);
