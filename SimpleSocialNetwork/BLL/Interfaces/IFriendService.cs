@@ -12,9 +12,10 @@ namespace BLL.Interfaces
     {
         public Task SendFriendRequest(string senderId, string receiverId);
 
-        public void AcceptFriendRequest(string userId, string friendId);
-        public void DeclineFriendRequest(string userId, string friendId);
+        public Task AcceptFriendRequest(string receiverId, string senderId);
+        public Task DeclineFriendRequest(string userId, string friendId);
 
+        public Task<IEnumerable<UserAccountModel>> GetUserFriendsRequest(string userId);
         public Task<IEnumerable<UserAccountModel>> GetUserFriends(string userId);
 
         public void ConfirmFriendship(string userId, string friendId);

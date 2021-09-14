@@ -15,10 +15,10 @@ namespace BLL.Models
         public bool IsMale { get; set; }
         public byte[] MainPhoto { get; set; }
 
-        public ICollection<int> UserAccountFriendsIds { get; set; }
+        public ICollection<string> UserAccountFriendsIds { get; set; }
 
-        public ICollection<int> FriendRequestSentIds { get; set; }
-        public ICollection<int> FriendRequestReceivedIds { get; set; }
-        public ICollection<int> PostsIds { get; set; }
+        public ICollection<string> FriendRequestSentIds { get; set; }
+        public ICollection<string> FriendRequestReceivedIds { get; set; }
+        public ICollection<string> PostsIds { get; set; }
     }
 }

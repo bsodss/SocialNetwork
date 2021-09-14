@@ -19,11 +19,24 @@ namespace DAL
 
         private IUserAccountPostRepository _UserAccountPostRepository;
 
-
+        private IUserAccountFriendRepository _userAccountFriendRepository;
 
         public UnitOfWork(SocialNetworkDbContext db)
         {
             _db = db;
+        }
+
+        public IUserAccountFriendRepository UserAccountFriendRepository
+        {
+            get
+            {
+                if (_userAccountFriendRepository == null)
+                {
+                    _userAccountFriendRepository = new UserAccountFriendRepository(_db);
+                }
+
+                return _userAccountFriendRepository;
+            }
         }
 
         public IUserAccountRepository UserAccountRepository

@@ -55,6 +55,7 @@ namespace WepApi
 
             services.AddTransient<IIdentityManagers, IdentityManagers>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IFriendService, FriendService>();
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IUserAccountService, UserAccountService>();

@@ -14,9 +14,9 @@ namespace BLL
         {
             CreateMap<UserAccount, UserAccountModel>()
                 .ForMember(m => m.FriendRequestReceivedIds,
-                    c => c.MapFrom(f => f.FriendRequestReceived.Select(request => request.Id)))
+                    c => c.MapFrom(f => f.FriendRequestReceived.Select(request => request.RequestById)))
                 .ForMember(dest => dest.FriendRequestSentIds,
-                    map => map.MapFrom(req => req.FriendRequestSent.Select(s => s.Id)))
+                    map => map.MapFrom(req => req.FriendRequestSent.Select(s => s.RequestToId)))
                 .ForMember(dest => dest.PostsIds,
                     map => map.MapFrom(req => req.Posts.Select(s => s.Id)))
                 .ForMember(dest => dest.UserAccountFriendsIds,

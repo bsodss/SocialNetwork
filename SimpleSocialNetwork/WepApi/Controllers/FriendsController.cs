@@ -20,14 +20,27 @@ namespace WepApi.Controllers
 
         public FriendsController(IFriendService friendService)
         {
-            _friendService = _friendService;
+            _friendService = friendService;
         }
 
 
-        [HttpGet("{id}")]
-        public async ActionResult<IEnumerable<UserAccountModel>> GetUserFriends(string userId)
+        [HttpGet("{id}/friends")]
+        public async Task<ActionResult<IEnumerable<UserAccountModel>>> GetUserFriends(string userId)
         {
-            throw new NotImplementedException();
+            return new ObjectResult(await _friendService.GetUserFriends(userId));
+        }
+
+        [HttpGet("{userId}/friendrequests")]
+        public async Task<ActionResult<IEnumerable<UserAccountModel>>> GetUserFriendRequests(string userId)
+        {
+            return new ObjectResult(await _friendService.GetUserFriendsRequest(userId));
+        }
+
+        [HttpPost("{senderId}/add/{receiverId}")]
+        public async Task<ActionResult> SendFriendRequest(string senderId, string receiverId)
+        {
+            await _friendService.SendFriendRequest(senderId, receiverId);
+            return NoContent();
         }
 
     }

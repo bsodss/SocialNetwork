@@ -12,7 +12,7 @@ using DAL.Interfaces;
 
 namespace BLL.Services
 {
-    public class FriendService: IFriendService
+    public class FriendService : IFriendService
     {
         private readonly IUnitOfWork _uow;
         private readonly IMapper _mapper;
@@ -33,6 +33,7 @@ namespace BLL.Services
 
             var friendRequest = new FriendRequest()
             {
+                Id = Guid.NewGuid().ToString(),
                 RequestBy = sender,
                 RequestTo = receiver,
                 IsConfirmed = false
@@ -41,7 +42,19 @@ namespace BLL.Services
             await _uow.SaveAsync();
         }
 
-        public void AcceptFriendRequest(string receiverId, string senderId)
+        public async Task<IEnumerable<UserAccountModel>> GetUserFriendsRequest(string userId)
+        {
+
+            var userFriendsFriendRequests =  _uow.FriendRequestRepository.FindAllWithDetails().Where(r => r.RequestToId == userId);
+            if (userFriendsFriendRequests == null)
+            {
+                throw new SocialNetworkException("User is not exist");
+            }
+
+            return _mapper.Map<IEnumerable<UserAccountModel>>(userFriendsFriendRequests.Select(s => s.RequestBy));
+        }
+
+        public async Task AcceptFriendRequest(string receiverId, string senderId)
         {
             var friendRequest = _uow.FriendRequestRepository
                 .FindAllWithDetails()
@@ -56,18 +69,28 @@ namespace BLL.Services
                 FriendId = receiverId,
                 UserAccountId = senderId
             };
+            await _uow.UserAccountFriendRepository.AddAsync(friendship);
+            await _uow.SaveAsync();
             //TODO: Add user friend repository and delete friendRequest(see above)
-
         }
 
-        public void DeclineFriendRequest(string userId, string friendId)
+        public async Task DeclineFriendRequest(string userId, string friendId)
         {
             throw new NotImplementedException();
         }
 
         public async Task<IEnumerable<UserAccountModel>> GetUserFriends(string userId)
         {
-            throw new NotImplementedException();
+            var user = await _uow.UserAccountRepository.GetByIdWithDetailsAsync(userId);
+            if (user == null)
+            {
+                throw new SocialNetworkException("User is not exist");
+            }
+
+            var userFriends = user.FriendsAddedByMe.Select(s => s.Friend)
+                .Concat(user.FriendsWhoAddedMe.Select(s => s.UserAccount));
+
+            return _mapper.Map<IEnumerable<UserAccountModel>>(userFriends);
         }
 
         public void ConfirmFriendship(string userId, string friendId)

@@ -9,7 +9,8 @@ namespace DAL.Interfaces
     {
         IUserAccountRepository UserAccountRepository { get; }
         IFriendRequestRepository FriendRequestRepository { get; }
-        IUserAccountPostRepository UserAccountPostRepository { get; }
+        IUserAccountPostRepository UserAccountPostRepository { get; } 
+        IUserAccountFriendRepository UserAccountFriendRepository { get; }
         Task<int> SaveAsync();
     }
 }
