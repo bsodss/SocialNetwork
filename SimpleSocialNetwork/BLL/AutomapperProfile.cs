@@ -23,6 +23,12 @@ namespace BLL
                     map => map.MapFrom(req => Enumerable.Concat(req.FriendsAddedByMe.Select(s => s.FriendId),
                         req.FriendsWhoAddedMe.Select(s => s.UserAccountId)))).ReverseMap();
 
+            CreateMap<UserAccount, UserModel>()
+                .ForMember(dest => dest.PostsIds,
+                    map => map.MapFrom(req => req.Posts.Select(s => s.Id)))
+                .ForMember(dest => dest.UserAccountFriendsIds,
+                    map => map.MapFrom(req => Enumerable.Concat(req.FriendsAddedByMe.Select(s => s.FriendId),
+                        req.FriendsWhoAddedMe.Select(s => s.UserAccountId)))).ReverseMap();
 
         }
     }

@@ -7,7 +7,7 @@ namespace BLL.Models
     public class UserAccountFilterSearchModel
     {
         public string City { get; set; }
-        public int AgeFrom { get; set; }
+        public int AgeFrom { get; set; } = 14;
         public int AgeTo { get; set; }
         public bool IsMale { get; set; }
 

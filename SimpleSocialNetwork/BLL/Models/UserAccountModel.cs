@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BLL.Models
 {
-    public class UserModel
+    public class UserAccountModel
     {
         public string Id { get; set; }
         public string FirstName { get; set; }
@@ -16,6 +16,9 @@ namespace BLL.Models
         public byte[] MainPhoto { get; set; }
 
         public ICollection<string> UserAccountFriendsIds { get; set; }
+
+        public ICollection<string> FriendRequestSentIds { get; set; }
+        public ICollection<string> FriendRequestReceivedIds { get; set; }
         public ICollection<string> PostsIds { get; set; }
     }
 }

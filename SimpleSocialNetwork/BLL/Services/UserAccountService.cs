@@ -52,7 +52,7 @@ namespace BLL.Services
         {
             if (model == null)
             {
-                throw new SocialNetworkException("Model cannot be an empty", nameof(AddAsync));
+                throw new SocialNetworkException("Model cannot be an empty", nameof(UpdateAsync));
             }
             var mapped = _mapper.Map<UserAccount>(model);
             await Task.Run(()=> _uow.UserAccountRepository.Update(mapped));

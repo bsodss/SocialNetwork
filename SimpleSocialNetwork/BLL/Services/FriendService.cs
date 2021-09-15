@@ -42,7 +42,7 @@ namespace BLL.Services
             await _uow.SaveAsync();
         }
 
-        public async Task<IEnumerable<UserAccountModel>> GetUserFriendsRequest(string userId)
+        public async Task<IEnumerable<UserModel>> GetUserFriendsRequest(string userId)
         {
 
             var userFriendsFriendRequests = _uow.FriendRequestRepository.FindAllWithDetails().Where(r => r.RequestToId == userId);
@@ -51,7 +51,7 @@ namespace BLL.Services
                 throw new SocialNetworkException("User is not exist");
             }
 
-            return _mapper.Map<IEnumerable<UserAccountModel>>(userFriendsFriendRequests.Select(s => s.RequestBy));
+            return _mapper.Map<IEnumerable<UserModel>>(userFriendsFriendRequests.Select(s => s.RequestBy));
         }
 
         public async Task AcceptFriendRequest(string receiverId, string senderId)
@@ -76,10 +76,19 @@ namespace BLL.Services
 
         public async Task DeclineFriendRequest(string userId, string friendId)
         {
-            throw new NotImplementedException();
+            var friendRequest = _uow.FriendRequestRepository
+                .FindAllWithDetails()
+                .FirstOrDefault(i => i.RequestToId == userId && i.RequestById == friendId);
+            if (friendRequest == null)
+            {
+                throw new SocialNetworkException("This friend request does not exist");
+            }
+
+            _uow.FriendRequestRepository.Delete(friendRequest);
+            await _uow.SaveAsync();
         }
 
-        public async Task<IEnumerable<UserAccountModel>> GetUserFriends(string userId)
+        public async Task<IEnumerable<UserModel>> GetUserFriends(string userId)
         {
             var user = await _uow.UserAccountRepository.GetByIdWithDetailsAsync(userId);
             if (user == null)
@@ -87,20 +96,25 @@ namespace BLL.Services
                 throw new SocialNetworkException("User is not exist");
             }
 
-            var userFriends = user.FriendsAddedByMe.Select(s => s.Friend)
-                .Concat(user.FriendsWhoAddedMe.Select(s => s.UserAccount));
-
-            return _mapper.Map<IEnumerable<UserAccountModel>>(userFriends);
+            var userFriendsIds = user.FriendsAddedByMe.Select(s => s.FriendId)
+                .Concat(user.FriendsWhoAddedMe.Select(s => s.UserAccountId));
+            var userFriends = _uow.UserAccountRepository.FindAllWithDetails().Where(i => userFriendsIds.Contains(i.Id));
+            return _mapper.Map<IEnumerable<UserModel>>(userFriends);
         }
 
-        public void ConfirmFriendship(string userId, string friendId)
-        {
-            throw new NotImplementedException();
-        }
 
-        public async Task DeleteFriendAsync(string friendId)
+        public async Task DeleteFriendAsync(string userId, string friendId)
         {
-            throw new NotImplementedException();
+            var friendTable = _uow.UserAccountFriendRepository.FindAll()
+                .FirstOrDefault(i =>
+                    (i.UserAccountId == userId && i.FriendId == friendId)
+                    || (i.FriendId == userId && i.UserAccountId == friendId));
+            if (friendTable == null)
+            {
+                throw new SocialNetworkException($"Friendship between {userId} and {friendId} does not exist!");
+            }
+            _uow.UserAccountFriendRepository.Delete(friendTable);
+            await _uow.SaveAsync();
         }
     }
 }

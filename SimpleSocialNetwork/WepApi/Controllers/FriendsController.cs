@@ -6,7 +6,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using BLL.Interfaces;
 using BLL.Models;
+using BLL.Validation;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace WepApi.Controllers
 {
@@ -23,32 +25,55 @@ namespace WepApi.Controllers
             _friendService = friendService;
         }
 
-
-        [HttpGet("{id}/friends")]
-        public async Task<ActionResult<IEnumerable<UserAccountModel>>> GetUserFriends(string userId)
+        [AllowAnonymous]
+        [HttpGet("{userId}")]
+        public async Task<ActionResult<IEnumerable<UserModel>>> GetUserFriends(string userId)
         {
-            return new ObjectResult(await _friendService.GetUserFriends(userId));
+            try
+            {
+                return new ObjectResult(await _friendService.GetUserFriends(userId));
+            }
+            catch (SocialNetworkException ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
         [HttpGet("{userId}/friendrequests")]
-        public async Task<ActionResult<IEnumerable<UserAccountModel>>> GetUserFriendRequests(string userId)
+        public async Task<ActionResult<IEnumerable<UserModel>>> GetUserFriendRequests(string userId)
         {
             return new ObjectResult(await _friendService.GetUserFriendsRequest(userId));
         }
 
-        [HttpPost("{userId}/confirmfriendship/{friendId}")]
+        [HttpPost("{userId}/confirm/{friendId}")]
         public async Task<ActionResult> ConfirmFriendship(string userId, string friendId)
         {
             await _friendService.AcceptFriendRequest(userId, friendId);
             return Ok();
         }
 
-            [HttpPost("{senderId}/add/{receiverId}")]
+        [HttpPost("{senderId}/add/{receiverId}")]
         public async Task<ActionResult> SendFriendRequest(string senderId, string receiverId)
         {
             await _friendService.SendFriendRequest(senderId, receiverId);
             return NoContent();
         }
+
+        [HttpDelete("{userId}/deletes/{friendId}")]
+        public async Task<ActionResult> DeleteFriendById(string userId, string friendId)
+        {
+            
+            try
+            {
+                await _friendService.DeleteFriendAsync(userId, friendId);
+                return NoContent();
+            }
+            catch (SocialNetworkException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
 
     }
 }

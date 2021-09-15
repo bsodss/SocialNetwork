@@ -4,7 +4,9 @@ using System.Text;
 
 namespace BLL.Models
 {
-    class PostModel
+    public class PostModel
     {
+        public string UserId { get; set; }
+
     }
 }

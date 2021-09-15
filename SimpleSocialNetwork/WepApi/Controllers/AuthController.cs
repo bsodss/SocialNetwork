@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BLL.Interfaces;
 using BLL.Models;
@@ -22,9 +23,9 @@ namespace WepApi.Controllers
         }
 
 
-        //TODO: Delete from auth controller
-        [HttpPost("createrole")]
-        public async Task<ActionResult> CreateRoleAsync([FromQuery] string name)
+        [Authorize(Roles = "Admin")]
+        [HttpPost("addrole")]
+        public async Task<ActionResult> CreateRoleAsync(string name)
         {
             try
             {
@@ -85,8 +86,20 @@ namespace WepApi.Controllers
         [HttpPost("logout")]
         public async Task<ActionResult> LogOut()
         {
-            await _userService.LogOut();
-            return NoContent();
+
+            try
+            {
+                await _userService.LogOut();
+                return NoContent();
+            }
+            catch (SocialNetworkException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
     }
