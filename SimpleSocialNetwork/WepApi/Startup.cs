@@ -47,7 +47,7 @@ namespace WepApi
             IMapper mapper = mappperCfg.CreateMapper();
             services.AddSingleton(mapper);
 
-
+             
             services.AddTransient<IUserAccountRepository, UserAccountRepository>();
             services.AddTransient<IUserAccountFriendRepository, UserAccountFriendRepository>();
             services.AddTransient<IUserAccountPostRepository, UserAccountPostRepository>();

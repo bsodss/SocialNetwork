@@ -22,6 +22,7 @@ namespace BLL.Services
         public UserService(IUnitOfWork uoW, IIdentityManagers identityManagers)
         {
             _identityManagers = identityManagers;
+
             _uow = uoW;
         }
 
