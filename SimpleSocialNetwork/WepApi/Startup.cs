@@ -17,6 +17,7 @@ using DAL.Identity;
 using DAL.Interfaces;
 using DAL.Repositories;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -34,6 +35,7 @@ namespace WepApi
 
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddDbContext<SocialNetworkDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -61,7 +63,8 @@ namespace WepApi
             services.AddTransient<IUserAccountService, UserAccountService>();
             services.AddTransient<IUserService, UserService>();
 
-
+            services.AddCors();
+        
             services.AddControllers();
         }
 
@@ -74,9 +77,17 @@ namespace WepApi
             }
 
             app.UseHttpsRedirection();
-            
-            app.UseRouting();
 
+
+            if (!env.IsDevelopment())
+            {
+                app.UseSpaStaticFiles();
+            }
+
+
+
+            app.UseRouting();
+            app.UseCors(builder => builder.WithOrigins("http://localhost:4200"));
             app.UseAuthentication();
             app.UseAuthorization();
 
