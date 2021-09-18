@@ -18,9 +18,9 @@ export class AppComponent implements OnInit {
   constructor(private dataService: DataService) { }
   ngOnInit(): void {
     this.dataService.getUsers().subscribe(data => {
-      this.users = data as User[];
+      this.users = data;
     });
-
+    this.dataService.getUser('f06a8d97-4999-4b14-999c-cf84e5124408').subscribe(data => this.user = data);
   }
 
 

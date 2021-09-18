@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { User } from './user';
 
 @Injectable()
@@ -10,10 +11,10 @@ export class DataService {
     constructor(private http: HttpClient) {
     }
 
-    getUsers() {
-        return this.http.get(this.url);
+    getUsers(): Observable<User[]> {
+        return this.http.get<User[]>(this.url);
     }
-    getUser(id: string) {
-        return this.http.get('https://localhost:44394' + this.url + '/' + id)
+    getUser(id: string): Observable<User> {
+        return this.http.get<User>(this.url + '/' + id);
     }
 }

@@ -78,13 +78,10 @@ namespace WepApi
 
             app.UseHttpsRedirection();
 
-
             if (!env.IsDevelopment())
             {
                 app.UseSpaStaticFiles();
             }
-
-
 
             app.UseRouting();
             app.UseCors(builder => builder.WithOrigins("http://localhost:4200"));
