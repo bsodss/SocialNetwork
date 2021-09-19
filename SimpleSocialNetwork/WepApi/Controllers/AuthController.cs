@@ -5,6 +5,7 @@ using BLL.Interfaces;
 using BLL.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using BLL.Models.Auth;
 using BLL.Validation;
 using Microsoft.AspNetCore.Authorization;
 
@@ -68,18 +69,18 @@ namespace WepApi.Controllers
         }
 
         [HttpPost("signin")]
-        public async Task<ActionResult<LogInModel>> LogInAsync([FromBody] LogInModel model)
+        public async Task<ActionResult<AuthResponseModel>> LogInAsync([FromBody] LogInModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(model);
 
             var result = await _userService.LogInUserAsync(model);
-            if (result.Succeeded)
+            if (result.IsAuthSuccessful)
             {
-                return Ok();
+                return Ok(result);
             }
 
-            return Unauthorized(model);
+            return Unauthorized(result);
         }
 
         [Authorize]

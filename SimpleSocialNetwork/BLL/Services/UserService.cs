@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BLL.Interfaces;
+using BLL.JwtFeatures;
 using BLL.Models;
+using BLL.Models.Auth;
 using BLL.Validation;
 using DAL.Entities;
 using DAL.Interfaces;
@@ -18,11 +22,12 @@ namespace BLL.Services
     {
         private readonly IUnitOfWork _uow;
         private readonly IIdentityManagers _identityManagers;
+        private readonly JwtHandler _jwtHandler;
 
-        public UserService(IUnitOfWork uoW, IIdentityManagers identityManagers)
+        public UserService(IUnitOfWork uoW, IIdentityManagers identityManagers, JwtHandler jwtHandler)
         {
             _identityManagers = identityManagers;
-            
+            _jwtHandler = jwtHandler;
             _uow = uoW;
         }
 
@@ -60,28 +65,31 @@ namespace BLL.Services
                 {
                     await _identityManagers.UserManager.AddToRoleAsync(user, "User");
                 }
-
-                await _identityManagers.SignInManager.SignInAsync(user, false);
+                //await _identityManagers.SignInManager.SignInAsync(user, false);
             }
             return result;
         }
 
-        public async Task<SignInResult> LogInUserAsync(LogInModel model)
+        public async Task<AuthResponseModel> LogInUserAsync(LogInModel model)
         {
             if (model == null)
             {
                 throw new SocialNetworkException("You did not provide correct data", nameof(RegisterUserAsync));
             }
 
-            var user = await _identityManagers.UserManager.Users.SingleOrDefaultAsync(i => i.Email == model.Email);
-            if (user == null)
+            var user = await _identityManagers.UserManager.FindByEmailAsync(model.Email);
+
+            if (user == null || !await _identityManagers.UserManager.CheckPasswordAsync(user, model.Password))
+                return new AuthResponseModel() {IsAuthSuccessful = false, ErrorMessage = "Invalid Authentication" };
+            var signingCredentials = _jwtHandler.GetSigningCredentials();
+            var claims = _jwtHandler.GetClaims(user, (await _identityManagers.UserManager.GetRolesAsync(user)).FirstOrDefault());
+            var tokenOptions = _jwtHandler.GenerateTokenOptions(signingCredentials, claims);
+            var token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+            return new AuthResponseModel()
             {
-                throw new SocialNetworkException("User not found");
-            }
-
-            var result = await _identityManagers.SignInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
-            return result;
-
+                IsAuthSuccessful = true,
+                Token = token
+            };
         }
 
         //TODO: Add RoleService

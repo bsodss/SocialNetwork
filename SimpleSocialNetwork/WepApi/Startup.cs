@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using BLL;
 using BLL.Interfaces;
+using BLL.JwtFeatures;
 using BLL.Services;
 using DAL;
 using DAL.Entities;
@@ -52,22 +53,21 @@ namespace WepApi
             IMapper mapper = mappperCfg.CreateMapper();
             services.AddSingleton(mapper);
 
-             
             services.AddTransient<IUserAccountRepository, UserAccountRepository>();
             services.AddTransient<IUserAccountFriendRepository, UserAccountFriendRepository>();
             services.AddTransient<IUserAccountPostRepository, UserAccountPostRepository>();
             services.AddTransient<IFriendRequestRepository, FriendRequestRepository>();
-
             services.AddTransient<IIdentityManagers, IdentityManagers>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IFriendService, FriendService>();
-
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IUserAccountService, UserAccountService>();
             services.AddTransient<IUserService, UserService>();
 
 
+
             //Adding JWT 
+            services.AddScoped<JwtHandler>();
             var jwtSettings = Configuration.GetSection("JwtSettings");
             services.AddAuthentication(opt => {
                     opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -75,6 +75,7 @@ namespace WepApi
                 })
                 .AddJwtBearer(options =>
                 {
+                    //options.RequireHttpsMetadata = false;
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuer = true,
