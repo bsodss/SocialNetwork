@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "hDZ6vUofi0Q/WPDpLQ0+E+NfrnS5Xut0faFPRECCXmo3f++lt0nzpwOQwI13JRiQeWzcA7AAgBQV+xzjdaV+IA==",
+  "dgSpecHash": "8SsdMYIxdGQCRikZE2ekAOpxm5gf50xHLaV8IkSLlg+4YoDhyMvx7AbMkAFwLmxp01EqI8WTDpbOt9vdzE30uw==",
   "success": true,
   "projectFilePath": "C:\\Users\\Maxim\\source\\repos\\simplesocialnetwork\\SimpleSocialNetwork\\BLL\\BLL.csproj",
   "expectedPackageFiles": [
@@ -10,6 +10,7 @@
     "C:\\Users\\Maxim\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\Maxim\\.nuget\\packages\\microsoft.aspnetcore.authentication.cookies\\2.2.0\\microsoft.aspnetcore.authentication.cookies.2.2.0.nupkg.sha512",
     "C:\\Users\\Maxim\\.nuget\\packages\\microsoft.aspnetcore.authentication.core\\2.2.0\\microsoft.aspnetcore.authentication.core.2.2.0.nupkg.sha512",
+    "C:\\Users\\Maxim\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\3.1.19\\microsoft.aspnetcore.authentication.jwtbearer.3.1.19.nupkg.sha512",
     "C:\\Users\\Maxim\\.nuget\\packages\\microsoft.aspnetcore.authorization\\3.1.0\\microsoft.aspnetcore.authorization.3.1.0.nupkg.sha512",
     "C:\\Users\\Maxim\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\5.0.9\\microsoft.aspnetcore.cryptography.internal.5.0.9.nupkg.sha512",
     "C:\\Users\\Maxim\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\5.0.9\\microsoft.aspnetcore.cryptography.keyderivation.5.0.9.nupkg.sha512",

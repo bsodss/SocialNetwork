@@ -91,3 +91,4 @@ C:\Users\Maxim\source\repos\simplesocialnetwork\SimpleSocialNetwork\WepApi\bin\D
 C:\Users\Maxim\source\repos\simplesocialnetwork\SimpleSocialNetwork\WepApi\bin\Debug\netcoreapp3.1\ClientApp\tsconfig.app.json
 C:\Users\Maxim\source\repos\simplesocialnetwork\SimpleSocialNetwork\WepApi\bin\Debug\netcoreapp3.1\ClientApp\tsconfig.json
 C:\Users\Maxim\source\repos\simplesocialnetwork\SimpleSocialNetwork\WepApi\bin\Debug\netcoreapp3.1\ClientApp\tsconfig.spec.json
+C:\Users\Maxim\source\repos\simplesocialnetwork\SimpleSocialNetwork\WepApi\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll

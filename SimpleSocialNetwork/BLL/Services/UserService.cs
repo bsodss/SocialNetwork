@@ -22,7 +22,7 @@ namespace BLL.Services
         public UserService(IUnitOfWork uoW, IIdentityManagers identityManagers)
         {
             _identityManagers = identityManagers;
-
+            
             _uow = uoW;
         }
 
@@ -52,7 +52,8 @@ namespace BLL.Services
                     User = user,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
-                    Birthday = model.Birthday
+                    Birthday = model.Birthday,
+                    IsMale = model.IsMale
                 });
                 await _uow.SaveAsync();
                 if (await _identityManagers.RoleManager.RoleExistsAsync("User"))
